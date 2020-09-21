@@ -5,13 +5,14 @@ function Status:new(status)
     
     love.graphics.setFont(Roboto)
 
-    self.timer = 5
+    self.timer = 3.5
 end
 
 -- for updating the state
 function Status:update(dt)
     if self.timer <= 0 then
-        loadMode('menu')
+        -- love.event.quit('restart')
+        love.load()
     end
 
     self.timer = self.timer - dt

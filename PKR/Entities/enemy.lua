@@ -51,6 +51,11 @@ end
 
 function Enemy:update(dt, player)
 
+    -- bottom boundary check
+    if self.y + self.height > WINDOW_HEIGHT then
+        loadMode('status', 'You lose!')
+    end
+
     -- counting down timer
     self.timer = self.timer - dt
 

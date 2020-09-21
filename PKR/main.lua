@@ -18,6 +18,7 @@ function love.load()
     require 'Managers/levelManager'
     require 'Managers/classicManager'
     require 'Managers/offlineManager'
+    require 'Managers/onlineManager'
     require 'MyUtilLibs/matchStatus'
     require 'MyUtilLibs/ManagerUtil'
     
@@ -41,7 +42,8 @@ function love.load()
     --setting paused state
     state = 'active'
 
-    Mode = 'classic'
+    -- debugging modes
+    Mode = 'menu'
 
     loadMode(Mode)
 end
@@ -67,12 +69,8 @@ function love.keypressed(key)
         love.event.quit()
     elseif key == 'return' then
         state = state == 'active' and 'paused' or 'active'
-    elseif state ~= 'paused'  then
-        if Mode == 'normal' then
-            levelManager:keypressed(key)
-        elseif Mode == 'offline' then
-            offlineManager:keypressed(key)
-        end
+    elseif state ~= 'paused' and Mode ~= 'menu' and Mode ~= 'status' then
+        states[Mode]['keypressed'](key)
     end
 end
 

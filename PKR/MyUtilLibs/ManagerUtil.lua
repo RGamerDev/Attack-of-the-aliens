@@ -7,7 +7,7 @@ end
 
 function ManagerUtil:chkMovement(player, negative, positive, dt)
 
-    if Mode == 'normal' or Mode == 'classic' then
+    if Mode == 'normal' or Mode == 'classic' or Mode == 'online' then
         if love.keyboard.isDown(negative) then
             player.dx = player.flyingSpeed
             player.flyingSpeed = player.flyingSpeed - 400 * dt
@@ -20,7 +20,7 @@ function ManagerUtil:chkMovement(player, negative, positive, dt)
             player.flyingSpeed = 0
         end
 
-    elseif Mode == 'offline' or Mode == 'online' then
+    elseif Mode == 'offline' then
         if love.keyboard.isDown(negative) then
             player.dy = player.flyingSpeed
             player.flyingSpeed = player.flyingSpeed - 400 * dt

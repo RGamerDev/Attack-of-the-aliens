@@ -28,10 +28,14 @@ states =
 
         ['draw'] = function ()
             lvlMngr:draw()
-        end 
+        end,
+
+        ['keypressed'] = function (key)
+            lvlMngr:keypressed(key)
+        end
     },
 
-    ['classic'] = 
+    ['classic'] =
     {
         ['load'] = function ()
             -- instantiating the clasicManager
@@ -44,7 +48,11 @@ states =
 
         ['draw'] = function ()
             clcMngr:draw()
-        end 
+        end,
+
+        ['keypressed'] = function (key)
+            clcMngr:keypressed(key)
+        end
     },
 
     ['offline'] =
@@ -60,6 +68,29 @@ states =
         ['draw'] = function ()
             offMngr:draw()
         end,
+
+        ['keypressed'] = function (key)
+            offMngr:keypressed(key)
+        end
+    },
+
+    ['online'] =
+    {
+        ['load'] = function ()
+            onmng = onlineManager()
+        end,
+
+        ['update'] = function (dt)
+            onmng:update(dt)
+        end,
+
+        ['draw'] = function ()
+            onmng:draw()
+        end,
+
+        ['keypressed'] = function (key)
+            onmng:keypressed(key)
+        end
     },
 
     ['status'] = 
@@ -77,4 +108,3 @@ states =
         end
     }
 }
-

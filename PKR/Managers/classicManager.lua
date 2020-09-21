@@ -1,5 +1,11 @@
 classicManager = Object.extend(Object)
 
+TIMER = 5
+
+require 'Entities.player'
+require 'Entities.enemy'
+require 'Entities.missile'
+
 function classicManager:new()
     -- setting background
     bg = love.graphics.newImage('Graphics/stars_milky_way_space_116893_1920x1080.jpg')
@@ -10,11 +16,12 @@ function classicManager:new()
     -- loading enemies
     enemies = mngUtil:generateEnemies(24)
 
-    self.shiftTimer = 5
+    self.shiftTimer = TIMER
 
 end
 
 function classicManager:update(dt)
+    
     if player.dead == false then
 
         mngUtil:chkMovement(player, 'a', 'd', dt)
@@ -30,13 +37,13 @@ function classicManager:update(dt)
             if enemy.dead == false then
                 enemy:update(dt, player)
             else
-                levelManager:kill_enemy(key)
+                self:kill_enemy(key)
             end
         end
 
         if self.shiftTimer <= 0 then
             self.shiftEnemies()
-            self.shiftTimer = 5
+            self.shiftTimer = TIMER
         else
             self.shiftTimer = self.shiftTimer - dt
         end
@@ -81,7 +88,7 @@ function classicManager:keypressed(key)
 end
 
 function classicManager:shiftEnemies()
-    for i = #enemies, 1 do
-        enemies[i].y = enemies[i].y + 500
+    for i = 1, #enemies do
+        enemies[i].y = enemies[i].y + 50
     end
 end

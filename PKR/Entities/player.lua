@@ -2,7 +2,7 @@ Player = Object.extend(Object)
 
 SHOOTING_INTERVAL = 2
 HIT_INTERVAL = 3
-LIVES = 100
+LIVES = 1
 
 function Player:new(x, y, r)
 
@@ -73,21 +73,24 @@ function Player:update(dt, entities)
             end
         end
 
-        if Mode == 'normal' or Mode == 'classic' then
-            -- checking missile collision
-            for _, entity in ipairs(entities) do
-                if entity.missile:checkCol(self) then
-                    self:hit()
-                end
-            end
-        elseif Mode == 'offline' or Mode == 'online' then
+        if entities ~= nil then
             
-            for _, missile in ipairs(entities.missiles) do
-                if missile:checkCol(self) then
-                    self:hit()
+            if Mode == 'normal' or Mode == 'classic' then
+                -- checking missile collision
+                for _, entity in ipairs(entities) do
+                    if entity.missile:checkCol(self) then
+                        self:hit()
+                    end
                 end
+            elseif Mode == 'offline' or Mode == 'online' then
+                
+                for _, missile in ipairs(entities.missiles) do
+                    if missile:checkCol(self) then
+                        self:hit()
+                    end
+                end
+                
             end
-
         end
     end
 end
