@@ -21,8 +21,12 @@ function love.load()
     require 'Managers/onlineManager'
     require 'MyUtilLibs/matchStatus'
     require 'MyUtilLibs/ManagerUtil'
+
+    bump = require 'Libraries/bump.lua-master/bump.lua'
     
     mngUtil = ManagerUtil()
+
+    world = bump.newWorld()
 
     -- Setting the window size
     love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {

@@ -1,6 +1,6 @@
 # Attack of the aliens
 
-Attack of the aliens is a 2D shooter where you need to shoot the aliens attacking earth. There are four modes including normal, classic space invader style, 2-player offline and online multiplayer.
+Attack of the aliens is a 2D shoot-them-up where you need to shoot the aliens attacking earth. There are four modes including normal, classic space invader style, 2-player offline and online multiplayer.
 
 ---
 
@@ -14,6 +14,7 @@ Here are some visual gameplay images of the game.
 
 - [LÖVE](https://love2d.org/) framework
 - [SUIT](https://github.com/vrld/SUIT) for UI
+- [Bump.lua] (https://github.com/kikito/bump.lua) for AABB collision detection
 
 ### Steps
  1. Install the [LÖVE](https://love2d.org/) framework.

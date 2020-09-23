@@ -94,7 +94,7 @@ function Enemy:draw()
     love.graphics.draw(self.sprite, self.x, self.y, self.r, 1, 1, self.xo, self.yo) 
 
     -- debug
-    love.graphics.rectangle('line', self.x - self.xo, self.y - self.yo, self.width, self.height) 
+    -- love.graphics.rectangle('line', self.x - self.xo, self.y - self.yo, self.width, self.height) 
     -- love.graphics.print(math.floor(self.timer), self.x, self.y + self.height) 
     -- love.graphics.print(self.missile.dead and 'dead' or 'alive', self.x + self.width, self.y + self.height) 
 

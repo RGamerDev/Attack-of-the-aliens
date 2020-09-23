@@ -20,7 +20,7 @@ function menuManager:update(dt)
 
     GUI[instance].layout:reset(0, 0)
 
-    GUI[instance]:Label('Space Invaders', {align = 'center', valign = 'center'}, GUI[instance].layout:row(WINDOW_WIDTH, 100))
+    GUI[instance]:Label('Attack of the aliens!', {align = 'center', valign = 'center'}, GUI[instance].layout:row(WINDOW_WIDTH, 100))
 
     if instance == 'main' then
         -- Put a button on the screen. If hit, show a message.

@@ -1,7 +1,7 @@
 Player = Object.extend(Object)
 
 SHOOTING_INTERVAL = 2
-HIT_INTERVAL = 3
+HIT_INTERVAL = 1
 LIVES = 1
 
 function Player:new(x, y, r)
