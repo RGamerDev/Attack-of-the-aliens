@@ -28,8 +28,6 @@ function menuManager:update(dt)
             loadMode('normal')
         elseif GUI[instance]:Button("Classic mode", GUI[instance].layout:row(WINDOW_WIDTH, UISize)).hit then
             loadMode('classic')
-        elseif GUI[instance]:Button("Multiplayer", GUI[instance].layout:row(WINDOW_WIDTH, UISize)).hit then
-            instance = 'multiplayer'
         elseif GUI[instance]:Button("Controls", GUI[instance].layout:row(WINDOW_WIDTH, UISize)).hit then
             instance = 'controls'
         elseif GUI[instance]:Button("Exit", GUI[instance].layout:row(WINDOW_WIDTH, UISize)).hit then
@@ -43,16 +41,6 @@ function menuManager:update(dt)
         GUI[instance]:Label('space\tshoot missile', {align = 'center', valign = 'center'}, GUI[instance].layout:row(WINDOW_WIDTH, 100))
         
         if GUI[instance]:Button("Back", GUI[instance].layout:row(WINDOW_WIDTH, UISize)).hit then
-            instance = 'main'
-        end 
-    elseif instance == 'multiplayer' then
-        GUI[instance]:Label('Multiplayer', {align = 'center', valign = 'center'}, GUI[instance].layout:row(WINDOW_WIDTH, 100))
-
-        if GUI[instance]:Button("Online", GUI[instance].layout:row(WINDOW_WIDTH, UISize)).hit then
-            loadMode('online')
-        elseif GUI[instance]:Button("Offline", GUI[instance].layout:row(WINDOW_WIDTH, UISize)).hit then
-            loadMode('offline')
-        elseif GUI[instance]:Button("Back", GUI[instance].layout:row(WINDOW_WIDTH, UISize)).hit then
             instance = 'main'
         end
     end

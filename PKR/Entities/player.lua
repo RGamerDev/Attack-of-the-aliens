@@ -4,7 +4,9 @@ SHOOTING_INTERVAL = 2
 HIT_INTERVAL = 1
 LIVES = 1
 
-function Player:new(x, y, r)
+function Player:new(x, y)
+
+    self.name = 'Player'
 
     -- Loading sprite image
     self.texture = love.graphics.newImage('Graphics/kenney_spaceshooterextension/PNG/Sprites/Ships/spaceShips_009.png')
@@ -20,11 +22,6 @@ function Player:new(x, y, r)
     -- center offset
     self.xo = self.width / 2
     self.yo = self.height / 2
-
-    -- angle
-    self.r = math.rad(r)
-    self.sin = math.sin(math.deg(self.r))
-    self.cos = math.cos(math.deg(self.r))
 
     -- x and y velocity
     self.dx = 0
@@ -59,8 +56,8 @@ function Player:update(dt, entities)
         self.hit_timer = self.hit_timer - dt
 
         -- missile location
-        self.mx = self.x
-        self.my = self.y
+        self.mx = self.x + self.xo
+        self.my = self.y - self.yo
 
         self:chkBnds()
 
@@ -73,25 +70,14 @@ function Player:update(dt, entities)
             end
         end
 
-        if entities ~= nil then
-            
-            if Mode == 'normal' or Mode == 'classic' then
-                -- checking missile collision
-                for _, entity in ipairs(entities) do
-                    if entity.missile:checkCol(self) then
-                        self:hit()
-                    end
-                end
-            elseif Mode == 'offline' or Mode == 'online' then
-                
-                for _, missile in ipairs(entities.missiles) do
-                    if missile:checkCol(self) then
-                        self:hit()
-                    end
-                end
-                
+        -- checking missile collision
+        for _, entity in ipairs(entities) do
+            if mngUtil:checkCol(self, entity.missile) then
+                self:hit()
             end
         end
+
+        self:move(dt)
     end
 end
 
@@ -100,17 +86,10 @@ function Player:draw()
 
     if self.dead == false then
         -- drawing Player
-        love.graphics.draw(self.texture, self.x, self.y, self.r, 1, 1, self.xo, self.yo)
+        love.graphics.draw(self.texture, self.x, self.y, 0, 1, 1, self.xy, self.yo)
 
         -- debug
-        -- love.graphics.rectangle('line', self.x - self.xo, self.y - self.yo, self.width, self.height)
-        -- love.graphics.print('player missiles:'..#self.missiles, 25, 75)
-        -- love.graphics.print('player x: ' .. self.x, self.x + self.xo, self.y)
-        -- love.graphics.print('player y: ' .. self.y, self.x + self.xo, self.y + 15)
-        -- love.graphics.print('player width: ' .. self.width, 25, 175)
-        -- love.graphics.print('player height: ' .. self.height, 25, 200)
-        -- love.graphics.print('player x velocity: ' .. self.dx, 0, 0)
-        -- love.graphics.print('player y velocity: ' .. self.dy, 0, 15)
+        love.graphics.rectangle('line', self.x, self.y - self.yo, self.width, self.height)
 
         -- drawing all of the player's missiles
         for _, missile in ipairs(self.missiles) do
@@ -126,7 +105,7 @@ if self.shoot_timer <= 0 and self.dead == false then
     self:play('shoot')
 
     key = #self.missiles + 1
-    self.missiles[key] = Missile(self.mx, self.my, self.dx, self.dy, self.r)
+    self.missiles[key] = Missile(self.name, self.mx, self.my, self.dx, self.dy, self.r)
     self.shoot_timer = SHOOTING_INTERVAL
 end
 
@@ -156,12 +135,21 @@ function Player:hit()
 end
 
 -- moving player
-function Player:move(axis, dt)
-    if axis == 'x' then
-        self.x = self.x + self.dx * dt
-    elseif axis == 'y' then
-        self.y = self.y + self.dy * dt
-    end
+function Player:move(dt)
+
+    if love.keyboard.isDown('a') then
+        player.dx = player.flyingSpeed
+        player.flyingSpeed = player.flyingSpeed - 400 * dt
+    elseif love.keyboard.isDown('d') then
+        player.dx = player.flyingSpeed
+        player.flyingSpeed = player.flyingSpeed + 400 * dt
+    else
+        player.dy = 0
+        player.dx = player.dx > 0 and player.dx - 1 or player.dx + 1
+        player.flyingSpeed = 0
+    end    
+
+    self.x = self.x + self.dx * dt
 end
 
 -- checking window boundaries
@@ -174,15 +162,4 @@ function Player:chkBnds()
         self.x = WINDOW_WIDTH - self.xo
         self.flyingSpeed = 0
     end
-
-    -- up and down boundaries checking
-    if self.y - self.xo < 0 then
-        self.y = 0 + self.xo
-        self.flyingSpeed = 0
-    elseif self.y + self.xo > WINDOW_HEIGHT then
-        self.y = WINDOW_HEIGHT - self.xo
-        self.flyingSpeed = 0
-    end
-    
-
 end

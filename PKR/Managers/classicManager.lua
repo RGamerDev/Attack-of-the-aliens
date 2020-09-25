@@ -37,7 +37,7 @@ function classicManager:update(dt)
             if enemy.dead == false then
                 enemy:update(dt, player)
             else
-                self:kill_enemy(key)
+                mngUtil:kill_enemy(key)
             end
         end
 
@@ -75,10 +75,6 @@ function classicManager:draw()
     elseif #enemies <= 0 then
         loadMode('status', 'You Win!')
     end
-end
-
-function classicManager:kill_enemy(key)
-    table.remove(enemies, key)
 end
 
 function classicManager:keypressed(key)

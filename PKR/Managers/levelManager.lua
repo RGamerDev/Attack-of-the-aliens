@@ -20,10 +20,6 @@ function levelManager:update(dt)
 
     if player.dead == false then
 
-        mngUtil:chkMovement(player, 'a', 'd', dt)
-
-        player:move('x', dt)
-
         -- updating player
         player:update(dt, enemies)
 
@@ -33,7 +29,7 @@ function levelManager:update(dt)
             if enemy.dead == false then
                 enemy:update(dt, player)
             else
-                levelManager:kill_enemy(key)
+                mngUtil:kill_enemy(key)
             end
         end
     end
@@ -64,10 +60,6 @@ function levelManager:draw()
     elseif #enemies <= 0 then
         loadMode('status', 'You Win!')
     end
-end
-
-function levelManager:kill_enemy(key)
-    table.remove(enemies, key)
 end
 
 function levelManager:keypressed(key)

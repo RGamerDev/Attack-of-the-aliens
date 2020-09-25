@@ -11,6 +11,8 @@ ENEMY_TYPES = {
 
 function Enemy:new(type, x, y, key)
 
+    self.name = 'Enemy'
+
     -- type of enemy selected
     self.type = type 
 
@@ -37,7 +39,7 @@ function Enemy:new(type, x, y, key)
     self.dx = math.random(-50, 50)
     
     -- enemy's missiles
-    self.missile = Missile(self.x, self.y, self.dx, self.dy, math.rad(180))
+    self.missile = Missile(self.name, self.x, self.y, self.dx, self.dy, math.rad(180))
     self.missile.dead = true
     
     -- isdead value
@@ -47,6 +49,7 @@ function Enemy:new(type, x, y, key)
     self.key = key
 
     self.timer = math.random(15)
+
 end
 
 function Enemy:update(dt, player)
@@ -71,13 +74,14 @@ function Enemy:update(dt, player)
     if self.missile.dead == false then
         self.missile:update(dt)
     else
-        self.missile:setX(self.x + self.width / 2)
-        self.missile:setY(self.y + self.height)
+        self.missile.x = self.x + self.width
+        self.missile.y = self.y + self.height
     end
 
     -- checking missile collision
     for _, missile in ipairs(player.missiles) do
-        if missile:checkCol(self) then
+        if mngUtil:checkCol(self, missile) then
+            missile.dead = true
             self.dead = true
         end
     end
@@ -92,11 +96,6 @@ end
 function Enemy:draw()
     -- drawing Enemy
     love.graphics.draw(self.sprite, self.x, self.y, self.r, 1, 1, self.xo, self.yo) 
-
-    -- debug
-    -- love.graphics.rectangle('line', self.x - self.xo, self.y - self.yo, self.width, self.height) 
-    -- love.graphics.print(math.floor(self.timer), self.x, self.y + self.height) 
-    -- love.graphics.print(self.missile.dead and 'dead' or 'alive', self.x + self.width, self.y + self.height) 
 
     -- drawing missiles
     if self.missile.dead == false then

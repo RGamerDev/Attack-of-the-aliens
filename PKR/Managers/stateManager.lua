@@ -55,44 +55,6 @@ states =
         end
     },
 
-    ['offline'] =
-    {
-        ['load'] = function ()
-            offMngr = offlineManager()
-        end,
-
-        ['update'] = function (dt)
-            offMngr:update(dt)
-        end,
-
-        ['draw'] = function ()
-            offMngr:draw()
-        end,
-
-        ['keypressed'] = function (key)
-            offMngr:keypressed(key)
-        end
-    },
-
-    ['online'] =
-    {
-        ['load'] = function ()
-            onmng = onlineManager()
-        end,
-
-        ['update'] = function (dt)
-            onmng:update(dt)
-        end,
-
-        ['draw'] = function ()
-            onmng:draw()
-        end,
-
-        ['keypressed'] = function (key)
-            onmng:keypressed(key)
-        end
-    },
-
     ['status'] = 
     {
         ['load'] = function (status)

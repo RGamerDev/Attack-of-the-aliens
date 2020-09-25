@@ -14,7 +14,7 @@ Here are some visual gameplay images of the game.
 
 - [LÖVE](https://love2d.org/) framework
 - [SUIT](https://github.com/vrld/SUIT) for UI
-- [Bump.lua] (https://github.com/kikito/bump.lua) for AABB collision detection
+- [Bump.lua](https://github.com/kikito/bump.lua) for AABB collision detection
 
 ### Steps
  1. Install the [LÖVE](https://love2d.org/) framework.
