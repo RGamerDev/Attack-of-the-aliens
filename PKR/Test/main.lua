@@ -51,7 +51,6 @@ function love.draw()
     love.graphics.rectangle('line', player1.x - player1.xo, player1.y - player1.yo, player1.width, player1.height)
     -- love.graphics.rectangle('line', player1.x, player1.y, player1.width, player1.height)
     love.graphics.rectangle(mode, player2.x, player2.y, player2.width, player2.height)
-    
 end
 
 function checkCollision(a, b)

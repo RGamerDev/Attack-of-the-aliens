@@ -59,7 +59,7 @@ function love.draw()
     states[Mode]['draw']()
 
     -- Printing FPS counter
-    love.graphics.print('FPS: ' .. love.timer.getFPS(), 25, 25)
+    -- love.graphics.print('FPS: ' .. love.timer.getFPS(), 25, 25)
 end
 
 -- Checking for key presses

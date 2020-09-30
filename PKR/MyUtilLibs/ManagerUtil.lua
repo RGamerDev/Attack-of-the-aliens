@@ -3,6 +3,16 @@ ManagerUtil = Object.extend(Object)
 function ManagerUtil:new()
     self.x = 150
     self.y = 100
+
+    -- Loading sounds
+    self.sounds = {
+        ['shoot'] = love.audio.newSource('Audio/Laser_Shoot.wav', 'static'),
+        ['explode'] = love.audio.newSource('Audio/Explosion.wav', 'static'),
+        ['hit'] = love.audio.newSource('Audio/Hit_Hurt.wav', 'static'),
+        ['victory'] = love.audio.newSource('Audio/Victory.wav', 'static'),
+        ['defeat'] = love.audio.newSource('Audio/Defeat.wav', 'static'),
+        ['click'] = love.audio.newSource('Audio/Click.wav', 'static')
+    }
 end
 
 function ManagerUtil:generateEnemies(count)
@@ -38,15 +48,16 @@ end
 function ManagerUtil:checkCol(a, b)
 
     --With locals it's common usage to use underscores instead of camelCasing
-    local a_left = a.x
-    local a_right = a.x + a.width
-    local a_top = a.y
-    local a_bottom = a.y + a.height 
 
-    local b_left = b.x
-    local b_right = b.x + b.width
-    local b_top = b.y
-    local b_bottom = b.y + b.height
+    local a_left = a.x - a.xo
+    local a_right = a.x + a.xo
+    local a_top = a.y - a.yo
+    local a_bottom = a.y + a.yo
+
+    local b_left = b.x - a.xo
+    local b_right = b.x + a.xo
+    local b_top = b.y - a.yo
+    local b_bottom = b.y + a.yo
 
     --If Red's right side is further to the right than Blue's left side.
     if a_right > b_left and
@@ -63,4 +74,9 @@ function ManagerUtil:checkCol(a, b)
         return false
     end
 
+end
+
+-- playing sounds
+function ManagerUtil:play(sound)
+    self.sounds[sound]:play()
 end

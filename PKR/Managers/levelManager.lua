@@ -51,13 +51,15 @@ function levelManager:draw()
         end
     
         -- debug
-        love.graphics.print('enemies: ' .. #enemies, 25, 50)
+        -- love.graphics.print('enemies: ' .. #enemies, 25, 50)
         -- love.graphics.print('player lives:'..self.lives, 25, 100) 
 
     elseif player.dead == true then
+        mngUtil:play('defeat')
         loadMode('status', 'You Lose!')
         
     elseif #enemies <= 0 then
+        mngUtil:play('victory')
         loadMode('status', 'You Win!')
     end
 end

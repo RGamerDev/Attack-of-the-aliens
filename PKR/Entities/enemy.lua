@@ -54,6 +54,14 @@ end
 
 function Enemy:update(dt, player)
 
+    -- checking missile collision
+    for _, missile in ipairs(player.missiles) do
+        if mngUtil:checkCol(missile, self) then
+            missile.dead = true
+            self:hit()
+        end
+    end
+
     -- bottom boundary check
     if self.y + self.height > WINDOW_HEIGHT then
         loadMode('status', 'You lose!')
@@ -74,17 +82,10 @@ function Enemy:update(dt, player)
     if self.missile.dead == false then
         self.missile:update(dt)
     else
-        self.missile.x = self.x + self.width
-        self.missile.y = self.y + self.height
+        self.missile.x = self.x
+        self.missile.y = self.y + self.yo
     end
 
-    -- checking missile collision
-    for _, missile in ipairs(player.missiles) do
-        if mngUtil:checkCol(self, missile) then
-            missile.dead = true
-            self.dead = true
-        end
-    end
 
     -- checking shooting interval
     if self.timer <= 0 then
@@ -97,6 +98,12 @@ function Enemy:draw()
     -- drawing Enemy
     love.graphics.draw(self.sprite, self.x, self.y, self.r, 1, 1, self.xo, self.yo) 
 
+    -- love.graphics.line( self.x - self.xo, self.y - self.yo,
+    --                         self.x + self.xo, self.y - self.yo,
+    --                         self.x + self.xo, self.y + self.yo,
+    --                         self.x - self.xo, self.y + self.yo,
+    --                         self.x - self.xo, self.y - self.yo)
+
     -- drawing missiles
     if self.missile.dead == false then
         self.missile:draw()
@@ -105,8 +112,10 @@ end
 
 function Enemy:hit()
     self.dead = true
+    mngUtil:play('explode')
 end
 
 function Enemy:shoot()
     self.missile.dead = false
+    mngUtil:play('shoot')
 end

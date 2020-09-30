@@ -1,8 +1,8 @@
 Player = Object.extend(Object)
 
 SHOOTING_INTERVAL = 2
-HIT_INTERVAL = 1
-LIVES = 1
+HIT_INTERVAL = 3
+LIVES = 3
 
 function Player:new(x, y)
 
@@ -32,12 +32,7 @@ function Player:new(x, y)
 
     self.missiles = {}
 
-    -- Loading sounds
-    self.sounds = {
-        ['shoot'] = love.audio.newSource('Audio/Laser_Shoot.wav', 'static'),
-        ['explode'] = love.audio.newSource('Audio/Explosion.wav', 'static'),
-        ['hit'] = love.audio.newSource('Audio/Laser_Shoot.wav', 'static')
-    }
+    
 
     -- time intervals
     self.shoot_timer = 0
@@ -51,12 +46,20 @@ end
 function Player:update(dt, entities)
 
     if self.dead == false then
+
+        -- checking missile collision
+        for _, entity in ipairs(entities) do
+            if mngUtil:checkCol(entity.missile, self) then
+                self:hit()
+            end
+        end
+
         -- counting down shoot_timer
         self.shoot_timer = self.shoot_timer - dt
         self.hit_timer = self.hit_timer - dt
 
         -- missile location
-        self.mx = self.x + self.xo
+        self.mx = self.x
         self.my = self.y - self.yo
 
         self:chkBnds()
@@ -69,14 +72,7 @@ function Player:update(dt, entities)
                 self:removeMissile(key)
             end
         end
-
-        -- checking missile collision
-        for _, entity in ipairs(entities) do
-            if mngUtil:checkCol(self, entity.missile) then
-                self:hit()
-            end
-        end
-
+        
         self:move(dt)
     end
 end
@@ -86,10 +82,17 @@ function Player:draw()
 
     if self.dead == false then
         -- drawing Player
-        love.graphics.draw(self.texture, self.x, self.y, 0, 1, 1, self.xy, self.yo)
+        love.graphics.draw(self.texture, self.x, self.y, 0, 1, 1, self.xo, self.yo)
 
         -- debug
-        love.graphics.rectangle('line', self.x, self.y - self.yo, self.width, self.height)
+        -- love.graphics.rectangle('line', self.x, self.y - self.yo, self.width, self.height)
+        love.graphics.print('Lives: ' .. LIVES, 0, WINDOW_HEIGHT * 0.7)
+
+        -- love.graphics.line( self.x - self.xo, self.y - self.yo,
+        --                     self.x + self.xo, self.y - self.yo,
+        --                     self.x + self.xo, self.y + self.yo,
+        --                     self.x - self.xo, self.y + self.yo,
+        --                     self.x - self.xo, self.y - self.yo)
 
         -- drawing all of the player's missiles
         for _, missile in ipairs(self.missiles) do
@@ -102,7 +105,7 @@ end
 function Player:shoot()
 
 if self.shoot_timer <= 0 and self.dead == false then
-    self:play('shoot')
+    mngUtil:play('shoot')
 
     key = #self.missiles + 1
     self.missiles[key] = Missile(self.name, self.mx, self.my, self.dx, self.dy, self.r)
@@ -116,19 +119,18 @@ function Player:removeMissile(key)
     table.remove(self.missiles, key)
 end
 
--- playing sounds
-function Player:play(sound)
-    self.sounds[sound]:play()
-end
+
 
 -- taking damage
 function Player:hit()
 
     if self.hit_timer <= 0 then
-        if self.lives == 1 then
+        if LIVES == 1 then
             self.dead = true
+            mngUtil:play('explode')
         else
-            self.lives = self.lives - 1
+            LIVES = LIVES - 1
+            mngUtil:play('hit')
         end
         self.hit_timer = HIT_INTERVAL
     end
@@ -145,10 +147,15 @@ function Player:move(dt)
         player.flyingSpeed = player.flyingSpeed + 400 * dt
     else
         player.dy = 0
-        player.dx = player.dx > 0 and player.dx - 1 or player.dx + 1
+        if player.dx ~= 0 then
+            if player.dx < 1 and player.dx > -1 then
+                player.dx = 0
+            end
+            player.dx = player.dx > 0 and player.dx - 1 or player.dx + 1
+        end
         player.flyingSpeed = 0
     end    
-
+    
     self.x = self.x + self.dx * dt
 end
 

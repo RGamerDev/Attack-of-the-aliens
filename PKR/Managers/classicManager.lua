@@ -21,12 +21,8 @@ function classicManager:new()
 end
 
 function classicManager:update(dt)
-    
+
     if player.dead == false then
-
-        mngUtil:chkMovement(player, 'a', 'd', dt)
-
-        player:move('x', dt)
 
         -- updating player
         player:update(dt, enemies)
@@ -65,15 +61,17 @@ function classicManager:draw()
         end
     
         -- debug
-        love.graphics.print('enemies: ' .. #enemies, 300, 25)
-        love.graphics.print('Timer: ' .. self.shiftTimer, WINDOW_WIDTH * .5, 25)
+        -- love.graphics.print('enemies: ' .. #enemies, 300, 25)
+        -- love.graphics.print('Timer: ' .. self.shiftTimer, WINDOW_WIDTH * .5, 25)
         -- love.graphics.print('player lives:'..self.lives, 25, 100) 
 
     elseif player.dead == true then
         loadMode('status', 'You Lose!')
+        mngUtil:play('defeat')
         
     elseif #enemies <= 0 then
         loadMode('status', 'You Win!')
+        mngUtil:play('victory')
     end
 end
 

@@ -11,7 +11,6 @@ end
 -- for updating the state
 function Status:update(dt)
     if self.timer <= 0 then
-        -- love.event.quit('restart')
         love.load()
     end
 
@@ -23,5 +22,5 @@ function Status:draw()
     WINDOW_WIDTH / 2 - Roboto:getWidth(self.status) / 2,
     WINDOW_HEIGHT / 2 - Roboto:getHeight() / 2)
 
-    love.graphics.print(self.timer, 0, 100)
+    -- love.graphics.print(self.timer, 0, 100)
 end

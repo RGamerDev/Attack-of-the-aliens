@@ -49,7 +49,14 @@ function Missile:draw()
     love.graphics.draw(self.texture, self.x, self.y, self.r, 1, 1, self.xo, self.yo)
 
     -- debugging x and y and collider
-    love.graphics.rectangle('line', self.x - self.xo, self.y - self.yo, self.width, self.height)    
+    -- love.graphics.rectangle('line', self.x - self.xo, self.y - self.yo, self.width, self.height)   
+
+    -- love.graphics.line( self.x - self.xo, self.y - self.yo,
+    --                         self.x + self.xo, self.y - self.yo,
+    --                         self.x + self.xo, self.y + self.yo,
+    --                         self.x - self.xo, self.y + self.yo,
+    --                         self.x - self.xo, self.y - self.yo)
+
 end
 
 function Missile:chkBnd()
